@@ -66,6 +66,7 @@ runs:
         additional_params: --scan-timeout 10 --threshold "sast-critical=1; sca-critical=1; iac-security-critical=1; iac-security-critical=1" --report-format sarif --output-path .
 
     - name: Print Checkmarx Step Status
+      shell: bash
       run: |
         echo "Checkmarx Step Outcome: ${{ steps.checkmarx.outcome }}"
         echo "Checkmarx Step Conclusion: ${{ steps.checkmarx.conclusion }}"
