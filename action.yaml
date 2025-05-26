@@ -53,6 +53,7 @@ runs:
         branch: ${{ steps.derive.outputs.branch }}
       
     - name: Checkmarx One Scan
+      id: checkmarx
       uses: checkmarx/ast-github-action@main
       continue-on-error: true
       with:
@@ -64,6 +65,11 @@ runs:
         cx_client_secret: ${{ inputs.CX_CLIENT_SECRET }}
         additional_params: --scan-timeout 10 --threshold "sast-critical=1; sca-critical=1; iac-security-critical=1; iac-security-critical=1" --report-format sarif --output-path .
 
+    - name: Print Checkmarx Step Status
+      run: |
+        echo "Checkmarx Step Outcome: ${{ steps.checkmarx.outcome }}"
+        echo "Checkmarx Step Conclusion: ${{ steps.checkmarx.conclusion }}"
+ 
     - name: Upload SARIF file
       uses: github/codeql-action/upload-sarif@v3
       with:
