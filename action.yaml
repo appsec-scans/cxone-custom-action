@@ -54,6 +54,7 @@ runs:
       
     - name: Checkmarx One Scan
       uses: checkmarx/ast-github-action@main
+      continue-on-error: true
       with:
         project_name: ${{ steps.derive.outputs.project_name }}
         branch: ${{ steps.derive.outputs.branch }}
@@ -68,3 +69,10 @@ runs:
       with:
         # Path to SARIF file relative to the root of the repository
         sarif_file: cx_result.sarif
+        
+    - name: Fail job if scan failed due to policy
+      if: steps.checkmarx.outcome != 'success'
+      run: |
+        echo "Checkmarx scan failed due to policy violations. Failing job."
+        exit 1
+
