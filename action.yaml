@@ -72,6 +72,7 @@ runs:
         
     - name: Fail job if scan failed due to policy
       if: steps.checkmarx.outcome != 'success'
+      shell: bash
       run: |
         echo "Checkmarx scan failed due to policy violations. Failing job."
         exit 1
